@@ -20,7 +20,7 @@ namespace task2
 
         protected override void OnStart()
         {
-            InnitTimer(5);
+            InnitTimer(30);
         }
 
         protected override void OnSleep()
