@@ -15,18 +15,12 @@ namespace task2
             InitializeComponent();
 
             MainPage = new NavigationPage(new MainPage());
-            
 
         }
 
-
-
-
-
-
         protected override void OnStart()
         {
-            InnitTimer();
+            InnitTimer(5);
         }
 
         protected override void OnSleep()
@@ -40,26 +34,38 @@ namespace task2
             var Page = MainPage.Navigation.NavigationStack.Last();
 
             if (Page is MainPage)
-                PopupNavigation.Instance.PushAsync(new Popup(nameof(OnResume)));
-        }
-
-
-        public void InnitTimer ()
-        {
-             PopupTime();
-             
-             MessagingCenter.Subscribe<App>((App)Application.Current, "PopupTimer", (sender) => {
-                PopupTime();
-             });
-        }
-
-        public void PopupTime()
-        {
-            Device.StartTimer(TimeSpan.FromSeconds(30), () =>
             {
-                PopupNavigation.Instance.PushAsync(new PopupTime(DateTime.Now.ToString("HH:mm:ss")));
+                Popup Resume = new Popup();
+                Resume.BindingContext = new PopupViewModel(nameof(OnResume));
+                PopupNavigation.Instance.PushAsync(Resume);
 
-                return false; 
+            }
+        }
+
+
+        public void InnitTimer (int seconds)
+        {
+             PopupTime(seconds);
+             
+             
+        }
+
+        public void PopupTime(int seconds)
+        {
+            Device.StartTimer(TimeSpan.FromSeconds(seconds), () =>
+            {
+                var Popup = PopupNavigation.Instance.PopupStack.LastOrDefault(p => p is Popup);
+
+                if (Popup != null)
+                    Popup.BindingContext = new PopupViewModel(DateTime.Now.ToString("HH:mm:ss"));
+                else
+                {
+                    Popup Time = new Popup();
+                    Time.BindingContext= new PopupViewModel(DateTime.Now.ToString("HH:mm:ss"));
+                    PopupNavigation.Instance.PushAsync(Time);
+                }
+
+                return true; 
             });
 
         }

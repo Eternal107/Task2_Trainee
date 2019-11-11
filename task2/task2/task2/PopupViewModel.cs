@@ -5,16 +5,16 @@ namespace task2
     class PopupViewModel:BaseViewModel
     {
         private string popupName;
-        public PopupViewModel(string label)
+        public PopupViewModel(string text)
         {
-            Label = label;
+            Text = text;
            
            
         }
 
-        public string Label
+        public string Text
         {
-            get { return popupName; } private set { popupName = value; NotyfyPropertyChanged(nameof(Label)); }
+            get { return popupName; } private set { popupName = value; NotyfyPropertyChanged(nameof(Text)); }
         }
     }
 }

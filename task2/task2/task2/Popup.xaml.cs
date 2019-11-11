@@ -7,10 +7,10 @@ namespace task2
     {
 
       
-        public Popup(string onResume )
+        public Popup( )
         {
 
-            this.BindingContext = new PopupViewModel(onResume);
+            
             InitializeComponent();
         }
 
