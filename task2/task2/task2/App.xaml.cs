@@ -11,16 +11,14 @@ namespace task2
     {
         public App()
         {
-
             InitializeComponent();
 
             MainPage = new NavigationPage(new MainPage());
-
         }
 
         protected override void OnStart()
         {
-            InnitTimer(30);
+            InnitTimer(5);
         }
 
         protected override void OnSleep()
@@ -32,13 +30,18 @@ namespace task2
         protected override void OnResume()
         {
             var Page = MainPage.Navigation.NavigationStack.Last();
-
-            if (Page is MainPage)
+            var Popup = PopupNavigation.Instance.PopupStack.LastOrDefault(p => p is Popup);
+            if (Page is MainPage && Popup==null)
             {
-                Popup Resume = new Popup();
-                Resume.BindingContext = new PopupViewModel(nameof(OnResume));
+                Popup Resume = new Popup
+                {
+                    BindingContext = new PopupViewModel(nameof(OnResume))
+                };
                 PopupNavigation.Instance.PushAsync(Resume);
-
+            }
+            else if(Page is MainPage )
+            {
+                Popup.BindingContext = new PopupViewModel(nameof(OnResume));
             }
         }
 
@@ -46,8 +49,6 @@ namespace task2
         public void InnitTimer (int seconds)
         {
              PopupTime(seconds);
-             
-             
         }
 
         public void PopupTime(int seconds)
@@ -60,8 +61,10 @@ namespace task2
                     Popup.BindingContext = new PopupViewModel(DateTime.Now.ToString("HH:mm:ss"));
                 else
                 {
-                    Popup Time = new Popup();
-                    Time.BindingContext= new PopupViewModel(DateTime.Now.ToString("HH:mm:ss"));
+                    Popup Time = new Popup
+                    {
+                        BindingContext = new PopupViewModel(DateTime.Now.ToString("HH:mm:ss"))
+                    };
                     PopupNavigation.Instance.PushAsync(Time);
                 }
 

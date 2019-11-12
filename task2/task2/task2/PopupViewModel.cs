@@ -1,5 +1,4 @@
 ﻿
-
 namespace task2
 {
     class PopupViewModel:BaseViewModel
@@ -8,8 +7,6 @@ namespace task2
         public PopupViewModel(string text)
         {
             Text = text;
-           
-           
         }
 
         public string Text

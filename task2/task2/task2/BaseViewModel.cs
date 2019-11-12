@@ -1,6 +1,4 @@
-﻿
-using System.ComponentModel;
-
+﻿using System.ComponentModel;
 
 namespace task2
 {
@@ -12,7 +10,5 @@ namespace task2
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-
     }
 }

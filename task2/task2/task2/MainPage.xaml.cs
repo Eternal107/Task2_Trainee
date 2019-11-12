@@ -10,8 +10,6 @@ namespace task2
         public MainPage()
         {
             InitializeComponent();
-            
-           
         }
        
 
@@ -19,8 +17,6 @@ namespace task2
         {
             Navigation.PushAsync(new Page2());
         }
-
-        
 
     }
 }

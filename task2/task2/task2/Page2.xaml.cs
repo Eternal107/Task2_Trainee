@@ -1,6 +1,4 @@
-﻿
-using Xamarin.Forms;
-
+﻿using Xamarin.Forms;
 
 namespace task2
 {
