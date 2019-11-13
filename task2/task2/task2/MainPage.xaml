@@ -5,7 +5,6 @@
              Title="MainPage">
 
     <StackLayout>
-        
         <Button Text="Go to Page 2" 
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand"

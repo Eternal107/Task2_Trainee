@@ -11,7 +11,15 @@ namespace task2
 
         public string Text
         {
-            get { return popupName; } private set { popupName = value; NotyfyPropertyChanged(nameof(Text)); }
+            get
+            {
+                return popupName;
+            }
+            private set
+            {
+                popupName = value;
+                NotyfyPropertyChanged(nameof(Text));
+            }
         }
     }
 }

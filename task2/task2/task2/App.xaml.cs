@@ -18,7 +18,7 @@ namespace task2
 
         protected override void OnStart()
         {
-            InnitTimer(30);
+            StartTimer(30,true);
         }
 
         protected override void OnSleep()
@@ -29,9 +29,26 @@ namespace task2
 
         protected override void OnResume()
         {
-            var Page = MainPage.Navigation.NavigationStack.Last();
+            OnResumePopup();
+        }
+
+
+        private void StartTimer(int seconds, bool repeat)
+        {
+            Device.StartTimer(TimeSpan.FromSeconds(seconds), () =>
+            {
+                TimePopup();
+
+                return repeat; 
+            });
+        }
+
+        private void OnResumePopup()
+        {
+            var Page = MainPage.Navigation.NavigationStack.LastOrDefault();
             var Popup = PopupNavigation.Instance.PopupStack.LastOrDefault(p => p is Popup);
-            if (Page is MainPage && Popup==null)
+
+            if (Page is MainPage && Popup == null)
             {
                 Popup Resume = new Popup
                 {
@@ -39,40 +56,27 @@ namespace task2
                 };
                 PopupNavigation.Instance.PushAsync(Resume);
             }
-            else if(Page is MainPage )
+            else if (Page is MainPage)
             {
                 Popup.BindingContext = new PopupViewModel(nameof(OnResume));
             }
         }
 
-
-        public void InnitTimer (int seconds)
+        private void TimePopup()
         {
-             PopupTime(seconds);
-        }
+            var Popup = PopupNavigation.Instance.PopupStack.LastOrDefault(p => p is Popup);
 
-        public void PopupTime(int seconds)
-        {
-            Device.StartTimer(TimeSpan.FromSeconds(seconds), () =>
+            if (Popup != null)
+                Popup.BindingContext = new PopupViewModel(DateTime.Now.ToString("HH:mm:ss"));
+            else
             {
-                var Popup = PopupNavigation.Instance.PopupStack.LastOrDefault(p => p is Popup);
-
-                if (Popup != null)
-                    Popup.BindingContext = new PopupViewModel(DateTime.Now.ToString("HH:mm:ss"));
-                else
+                Popup Time = new Popup
                 {
-                    Popup Time = new Popup
-                    {
-                        BindingContext = new PopupViewModel(DateTime.Now.ToString("HH:mm:ss"))
-                    };
-                    PopupNavigation.Instance.PushAsync(Time);
-                }
-
-                return true; 
-            });
-
+                    BindingContext = new PopupViewModel(DateTime.Now.ToString("HH:mm:ss"))
+                };
+                PopupNavigation.Instance.PushAsync(Time);
+            }
         }
-
 
     }
 }
